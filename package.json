@@ -4,19 +4,23 @@
   "description": "A submission to the first project in full stack nano-degree ",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run build && npm run jasmine",
     "start": "npm run build && node dist/index.js",
     "build": "tsc",
+		"jasmine": "npx jasmine --config=jasmine.json",
     "dev": "nodemon --watch ./src/** --exec \"npm run build && node dist/index.js\""
   },
   "author": "tawfiek",
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
+    "jasmine": "^3.10.0",
+    "jasmine-spec-reporter": "^7.0.0",
     "sharp": "^0.29.3"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
+    "@types/jasmine": "^3.10.2",
     "@types/node": "^16.11.11",
     "nodemon": "^2.0.15",
     "prettier": "2.5.0",
