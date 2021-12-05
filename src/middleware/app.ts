@@ -9,9 +9,7 @@ export function errorHandler(
   err: Error,
   req: Request,
   res: Response,
-  // tslint:disable-next-line: trailing-comma
-  next: NextFunction
 ) {
-  console.error(err.message);
-  return res.status(500).send('Something went wrong!');
+  console.error(err);
+  return res.status(500).json({message: 'Something went wrong!'});
 }
