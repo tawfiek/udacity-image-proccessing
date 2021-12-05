@@ -9,14 +9,15 @@ export async function resizeImage(req: Request, res: Response, next: NextFunctio
     try {
         const { width, height, imageName, imageType} = req.body;
         const outputFileName = imageUtils.getOutputFileName(width, height, imageName, imageType);
+        const fullImageName = `${imageName}.${imageType}`;
 
         const isCroppedImageExist =
             imageUtils.isCroppedImageExists(width, height, imageName, imageType);
 
         // If the file doesn't exist, return error [404].
-        if (!imageUtils.isFullImageExists(`${imageName}.${imageType}`)) {
+        if (!imageUtils.isFullImageExists(fullImageName)) {
             return res.status(404).json({
-                message: 'Can not find image with name ' + imageName,
+                message: 'Can not find image with name' + fullImageName,
             });
         }
 
@@ -24,7 +25,7 @@ export async function resizeImage(req: Request, res: Response, next: NextFunctio
         if (isCroppedImageExist) {
             next();
         }
-        const file = await readFile(imageUtils.FULL_IMAGES_PATH + imageName);
+        const file = await readFile(imageUtils.FULL_IMAGES_PATH + fullImageName);
 
         const result: sharp.OutputInfo = await sharp(file)
             .resize(width, height)
@@ -32,9 +33,8 @@ export async function resizeImage(req: Request, res: Response, next: NextFunctio
 
         console.log('[SHARP] Image Resized', result);
 
-        res.status(200).json({success: true});
+        next();
     } catch (error) {
-        console.error(error);
         next(error);
      }
 }

@@ -1,8 +1,8 @@
 import { existsSync, readFileSync } from 'fs';
 import path from 'path';
 
-export const CROPPED_IMAGES_PATH = path.normalize(`${__dirname}/../public/images/cropped/`);
-export const FULL_IMAGES_PATH = path.normalize(`${__dirname}/../public/images/full/`);
+export const CROPPED_IMAGES_PATH = path.normalize(`${__dirname}/../../src/public/images/cropped/`);
+export const FULL_IMAGES_PATH = path.normalize(`${__dirname}/../../src/public/images/full/`);
 
 // Get the output file name.
 export function getOutputFileName(
@@ -21,7 +21,7 @@ export function isCroppedImageExists(
     imageType: string): boolean {
 
     const fileName = getOutputFileName(width, height, name, imageType);
-    return !! existsSync(`${CROPPED_IMAGES_PATH}${fileName}`);
+    return !! existsSync(`${CROPPED_IMAGES_PATH}${fileName}.${imageType}`);
 
 }
 
