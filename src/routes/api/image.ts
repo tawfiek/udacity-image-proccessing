@@ -1,9 +1,9 @@
-import { Router } from 'express';
-import { getImage, validateInputs } from '../../controllers/image';
-import { resizeImage } from '../../middleware/image';
+import { Router } from 'express'
+import { getImage, validateInputs } from '../../controllers/image'
+import { resizeImage } from '../../middleware/image'
 
-const router = Router();
+const router = Router()
 
-router.post( '/resize', validateInputs, resizeImage, getImage );
+router.post('/resize', validateInputs, resizeImage, getImage)
 
-export default router;
+export default router

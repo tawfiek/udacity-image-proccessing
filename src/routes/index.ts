@@ -1,8 +1,8 @@
-import { Router } from 'express';
-import imageRouter from './api/image';
+import { Router } from 'express'
+import imageRouter from './api/image'
 
-const routes = Router ();
+const routes = Router()
 
-routes.use('/image', imageRouter);
+routes.use('/image', imageRouter)
 
-export default routes;
+export default routes
