@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { readFile } from 'fs/promises';
 import { CROPPED_IMAGES_PATH, getOutputFileName } from '../utils/image-utils';
 
-export  function validateInputs(req: Request, res: Response, next: NextFunction) {
+export  function validateInputs(req: Request, res: Response, next: NextFunction): void | Response {
     const { width, height, imageName, imageType } = req.body;
 
     if (typeof width !== 'number' && typeof height !== 'number') {
@@ -24,9 +24,13 @@ export  function validateInputs(req: Request, res: Response, next: NextFunction)
     next();
 }
 
-export async function getImage(req: Request, res: Response, next: NextFunction) {
+export async function getImage(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-        const { width, height, imageName, imageType} = req.body;
+        const width: number = req.body.width;
+        const height: number = req.body.height;
+        const imageName: string = req.body.imageName;
+        const imageType: string = req.body.imageType;
+
         const outputFileName = getOutputFileName(width, height, imageName, imageType);
         const croppedImage = await getCroppedImage(outputFileName);
 
@@ -35,7 +39,7 @@ export async function getImage(req: Request, res: Response, next: NextFunction) 
             'Content-Type': 'image/png',
         });
 
-        res.end(croppedImage);
+        return res.end(croppedImage);
     } catch (error) {
         next(error);
     }
