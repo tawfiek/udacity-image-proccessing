@@ -9,6 +9,10 @@ export  function validateInputs(req: Request, res: Response, next: NextFunction)
         return res.status(400).json({message: 'Width and height must be numbers'});
     }
 
+    if (width <= 0 || height <= 0) {
+        return res.status(400).json({message: 'Width and height greater than 0'});
+    }
+
     if (typeof imageName !== 'string' || !imageName || !imageType || typeof imageType !== 'string') {
         return res.status(400).json({message: 'Image name and type must be strings'});
     }
