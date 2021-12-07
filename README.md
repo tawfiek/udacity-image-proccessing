@@ -40,6 +40,19 @@ To run the ts linter
 npm run lint
 ```
 
+## End Points
+
+We have just one API end point
+
+` GET /image/resize/:imageName?/:imageType`
+
+`imageName String (required)` [Path Param] is the name that needs to be retrieved.
+`imageType String (required)` [Path Param] Now this end point supports `jpg` and `png types only.
+`width Number (required)`  [Query Param] the width for the image to be resized.
+`height Number (required)`  [Query Param] the height for the image to be resized.
+
+
+
 
 
 
