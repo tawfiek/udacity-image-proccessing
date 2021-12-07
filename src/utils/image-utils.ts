@@ -2,10 +2,10 @@ import { existsSync, readFileSync } from 'fs';
 import path from 'path';
 
 export const CROPPED_IMAGES_PATH = path.normalize(
-    `${__dirname}/../../src/public/images/cropped/`
+    `${__dirname}/../../public/images/cropped/`
 );
 export const FULL_IMAGES_PATH = path.normalize(
-    `${__dirname}/../../src/public/images/full/`
+    `${__dirname}/../../public/images/full/`
 );
 
 // Get the output file name.

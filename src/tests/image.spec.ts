@@ -3,14 +3,17 @@ import { existsSync } from 'fs';
 import { resizeImage } from '../middleware/image';
 
 describe('Image crop process', () => {
-    const CROPPED_IMAGES_PATH = `${__dirname}/../../src/public/images/cropped/`;
+    const CROPPED_IMAGES_PATH = `${__dirname}/../../public/images/cropped/`;
 
     it('Should use sharp to crop the image correctly', async () => {
         const mockReq: Request = {
-            body: {
-                height: 100,
+            params: {
                 imageName: 'fjord',
                 imageType: 'jpg',
+            },
+
+            query: {
+                height: 100,
                 width: 100,
             },
         } as any;
