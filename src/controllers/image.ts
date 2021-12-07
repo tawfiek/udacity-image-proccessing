@@ -1,24 +1,27 @@
-import { NextFunction, Request, Response } from 'express'
-import { readFile } from 'fs/promises'
-import { CROPPED_IMAGES_PATH, getOutputFileName } from '../utils/image-utils'
+import { NextFunction, Request, Response } from 'express';
+import { readFile } from 'fs/promises';
+import { CROPPED_IMAGES_PATH, getOutputFileName } from '../utils/image-utils';
 
 export function validateInputs(
     req: Request,
     res: Response,
     next: NextFunction
 ): void | Response {
-    const { width, height, imageName, imageType } = req.body
+    const width: number = +req.query.width;
+    const height: number = +req.query.height;
+    const imageName: string = req.params.imageName;
+    const imageType: string = req.params.imageType;
 
     if (typeof width !== 'number' && typeof height !== 'number') {
         return res
             .status(400)
-            .json({ message: 'Width and height must be numbers' })
+            .json({ message: 'Width and height must be numbers' });
     }
 
     if (width <= 0 || height <= 0) {
         return res
             .status(400)
-            .json({ message: 'Width and height greater than 0' })
+            .json({ message: 'Width and height greater than 0' });
     }
 
     if (
@@ -29,16 +32,16 @@ export function validateInputs(
     ) {
         return res
             .status(400)
-            .json({ message: 'Image name and type must be strings' })
+            .json({ message: 'Image name and type must be strings' });
     }
 
     if (imageType !== 'jpg' && imageType !== 'png') {
         return res
             .status(400)
-            .json({ message: 'Image type must be jpg or png' })
+            .json({ message: 'Image type must be jpg or png' });
     }
 
-    next()
+    next();
 }
 
 export async function getImage(
@@ -47,30 +50,30 @@ export async function getImage(
     next: NextFunction
 ): Promise<void> {
     try {
-        const width: number = req.body.width
-        const height: number = req.body.height
-        const imageName: string = req.body.imageName
-        const imageType: string = req.body.imageType
+        const width: number = +req.query.width;
+        const height: number = +req.query.height;
+        const imageName: string = req.params.imageName;
+        const imageType: string = req.params.imageType;
 
         const outputFileName = getOutputFileName(
             width,
             height,
             imageName,
             imageType
-        )
-        const croppedImage = await getCroppedImage(outputFileName)
+        );
+        const croppedImage = await getCroppedImage(outputFileName);
 
         res.writeHead(200, {
             'Content-Length': croppedImage.length,
             'Content-Type': 'image/png',
-        })
+        });
 
-        return res.end(croppedImage)
+        return res.end(croppedImage);
     } catch (error) {
-        next(error)
+        next(error);
     }
 }
 
 function getCroppedImage(fileName: string): Promise<Buffer> {
-    return readFile(CROPPED_IMAGES_PATH + fileName)
+    return readFile(CROPPED_IMAGES_PATH + fileName);
 }
